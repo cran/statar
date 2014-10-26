@@ -6,7 +6,8 @@
 #' @param by Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.
 #' @param d Should detailed summary statistics be printed?
 #' @param na.rm A boolean. default to TRUE
-#' @param .dots Used to work around non-standard evaluation.
+#' @param digits Number of significant decimal digits. Default to 3
+#' @param vars Used to work around non-standard evaluation.
 #' @examples
 #' library(data.table)
 #' N <- 100
@@ -20,45 +21,42 @@
 #' sum_up(DT, starts_with("v"), by = v1)
 #' sum_up(DT, by = v1)
 #' @export
-sum_up <- function(x, ...,  d = FALSE, w = NULL, na.rm = TRUE, by = NULL) {
-  sum_up_(x, .dots = lazy_dots(...) , d = d, w = substitute(w), na.rm = na.rm, by = substitute(by))
+sum_up <- function(x, ...,  d = FALSE, w = NULL, na.rm = TRUE, by = NULL, digits = 3) {
+  sum_up_(x, vars = lazy_dots(...) , d = d, w = substitute(w), na.rm = na.rm, by = substitute(by), digits = digits)
 }
 
 
 #' @export
 #' @rdname sum_up
-sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL) {
+sum_up_<- function(x, vars, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL, digits = 3) {
   stopifnot(is.data.table(x))
   w <- names(select_vars_(names(x), w))
   if (!length(w)) w <- NULL
   byvars <- names(select_vars_(names(x), by))
-  dots <- all_dots(.dots, ...)
+  dots <- all_dots(vars)
   vars <- names(select_vars_(names(x), dots, exclude = byvars))
   if (length(vars) == 0) {
      vars <- setdiff(names(x), c(byvars,w))
   }
+
   nums <- sapply(x, is.numeric)
   nums_name <- names(nums[nums==TRUE])
   vars=intersect(vars,nums_name)
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
-
   if (!is.null(w)){
     w <- x[[which(names(x)== w)]]
   }
     if (!length(byvars)){
-      invisible(x[, describe_matrix(.SD,d = d, w = w, na.rm = na.rm ), .SDcols = vars])
+      invisible(x[, describe(.SD,d = d, w = w, na.rm = na.rm , digits = digits), .SDcols = vars])
     } else{
-      invisible(x[, describe_matrix(.SD,d = d, w = w, na.rm = na.rm ), .SDcols = vars, by = byvars])
+      invisible(x[, describe(.SD,d = d, w = w, na.rm = na.rm , digits = digits), .SDcols = vars, by = byvars])
     }
   
 }
 
 
 
-describe_matrix <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores=getOption("mc.cores", 2L)){
-
-
-
+describe <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores = getOption("mc.cores", 2), digits = 3){
   # import 3 functions from stargazer
   .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, 
       simply.output = FALSE,  .format.digit.separator = ",") {
@@ -212,7 +210,6 @@ describe_matrix <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores=getOp
       sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm, w = w), sd(x,na.rm= na.rm), quantile(x, c(0, 1), type = 1, na.rm = na.rm, weights = w))}))
     }
     sum <- as.matrix(sum_mean)
-    print(sum)
     rownames(sum) <-  c("N","NA","Mean","Sd","Min", "Max")
 
   } else {
@@ -243,8 +240,9 @@ describe_matrix <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores=getOp
   print <- apply(sum,c(1,2),
     function(x){
     if (is.numeric(x)){
-      y <- .iround(x,decimal.places=3)
-      y <- str_replace(y,"000$","")
+      y <- .iround(x,decimal.places=digits)
+      end <- paste0(paste(rep("0", digits), collapse = ""),"$")
+      y <- str_replace(y,end,"")
       if (y==""){
         y <- "0"
       }

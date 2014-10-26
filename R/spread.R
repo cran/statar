@@ -1,13 +1,13 @@
 #' @export
-spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FALSE, drop = TRUE) {
+spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FALSE, drop = TRUE ) {
   id <- setdiff(names(data), c(key_col, value_col))
   length_lhs <- length(id)
   if (!length_lhs) {
-    id <- tempname(data)
-    data[, (id) := 1] 
-    on.exit(data[, (id) := NULL])
+    id <- tempname("temp", data)
+    data[, (id) := 1:.N] 
+    on.exit(data[, (id) :=NULL])
   }
-  if (anyDuplicated(data, by = c(id, key_col))){
+  else if (anyDuplicated(data, by = c(id, key_col))){
         overall <- dplyr::id(data[,c(id, key_col), with = FALSE])
         groups <- split(seq_along(overall), overall)
         groups <- groups[vapply(groups, length, integer(1)) > 1]
@@ -29,6 +29,6 @@ spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FA
 
 #' @export
 spread_.tbl_dt <- function(data, key_col, value_col, fill = NA,
-                           convert = FALSE, drop = TRUE) {
+                           convert = FALSE) {
   dplyr::tbl_dt(NextMethod())
 }

@@ -3,8 +3,9 @@
 \alias{join}
 \title{Join two data.tables together}
 \usage{
-join(x, y, on = intersect(names(x), names(y)), type = "outer", check = m ~
-  m, gen = FALSE, inplace = FALSE)
+join(x, y, on = intersect(names(x), names(y)), type = "outer",
+  suffixes = c(".x", ".y"), check = m ~ m, gen = FALSE, inplace = FALSE,
+  update = FALSE)
 }
 \arguments{
 \item{x}{The master data.table}
@@ -15,14 +16,18 @@ join(x, y, on = intersect(names(x), names(y)), type = "outer", check = m ~
 
 \item{type}{The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi", "anti" and "cross".}
 
+\item{suffixes}{A character vector of length 2 to apply to overlapping columns. Defaut to ".x" and ".y".}
+
 \item{check}{A formula checking for the presence of duplicates. Specifying 1~m (resp m~1, 1~1) checks that joined variables uniquely identify observations in x (resp y, both).}
 
 \item{gen}{Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.}
 
 \item{inplace}{A boolean. In case "type"= "left" and RHS of check is 1, the merge can be one in-place.}
+
+\item{update}{A boolean. For common variables in x and y not specified in "on", replace missing observations by the non missing observations in y.}
 }
 \value{
-A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with .x and .y suffixes. Importantly, if x or y are not keyed, the join may change their row orders.
+A data.table that joins rows in master and using datases. Importantly, if x or y are not keyed, the join may change their row orders.
 }
 \description{
 Join two data.tables together
@@ -37,6 +42,14 @@ join(x, y, type = "right", gen = "_merge")
 join(x, y, type = "inner", check = m~1)
 join(x, y, type = "semi")
 join(x, y, type = "anti")
+setnames(y, "bb", "b")
+join(x, y, on = "a")
+join(x, y, on = "a", suffixes = c("",".i"))
+y <- data.table(a = 0:1, bb = 10:11)
 join(x, y, type = "left", check = m~1, inplace = TRUE)
+x <- data.table(a = c(1,2), b=c(NA, 2))
+y <- data.table(a = c(1,2), b = 10:11)
+join(x, y, type = "left", on = "a",  update = TRUE)
+join(x, y, type = "left", on = "a", chec = m~1, inplace = TRUE,  update = TRUE)
 }
 
