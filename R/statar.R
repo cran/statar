@@ -22,21 +22,23 @@
 #' @importFrom lfe demeanlist
 #' @importFrom lazyeval as.lazy
 #' @importFrom lazyeval lazy_dots
+#' @importFrom lazyeval lazy_eval
 #' @importFrom lazyeval all_dots
 #' @importFrom lazyeval common_env
 #' @importFrom lazyeval interp
 #' @importFrom lubridate period
 #' @importFrom lubridate second
 #' @importFrom lubridate weeks
-#' @importFrom lubridate mdy
 #' @importFrom lubridate years
 #' @importFrom matrixStats colWeightedMeans
 #' @importFrom parallel mclapply
 #' @importFrom parallel mcMap
 #' @importFrom stats lag
 #' @importFrom stringr str_replace
+#' @importFrom stringr str_match
 #' @importFrom stringr str_detect
 #' @importFrom tidyr gather_
+#' @importFrom tidyr spread
 #' @importFrom tidyr spread_
 NULL
 

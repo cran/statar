@@ -3,13 +3,13 @@
 \alias{lag.default}
 \alias{lead}
 \alias{lead-lag}
-\title{lead and lag.}
+\title{lead and lag with respect to a time variable}
 \usage{
-lead(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL,
+lead(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL,
   default = NA, ...)
 
-\method{lag}{default}(x, n = 1L, order_by = NULL, units = NULL,
-  along_with = NULL, default = NA, ...)
+\method{lag}{default}(x, n = 1L, order_by = NULL, along_with = NULL,
+  units = NULL, default = NA, ...)
 }
 \arguments{
 \item{x}{a vector of values}
@@ -18,27 +18,27 @@ lead(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL,
 
 \item{order_by}{override the default ordering to use another vector}
 
-\item{units}{A character when along_with is a date (one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").}
+\item{along_with}{use this variable to lag with respect to \code{n} \code{along_with} rather than \code{n} row}
 
-\item{along_with}{compute lag with respect to this vector instead of previous row}
+\item{units}{Deprecated. Use \code{elapsed_dates}}
 
 \item{default}{value used for non-existant rows. Defaults to \code{NA}.}
 
 \item{...}{Needed for compatibility with lag generic.}
 }
 \description{
-lead and lag are useful for comparing values for date offset by a constant
+lead and lag with respect to a time variable
 }
 \examples{
-year <- c(1992, 1989, 1991)
+year <- c(1989, 1991, 1992)
 value <- c(4.1, 4.5, 3.3)
 lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag
 lag(value, 1, along_with = year) #  returns value in year - 1
-
+lead(value, 1, along_with = year)
 library(lubridate)
-date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))
-value <- c(4.1, 4.5, 3.3, 5.3)
-datem <- floor_date(date, "month")
-value_l <- lag(value, units = "month", along_with = datem)
+date <- mdy(c("01/04/1992", "03/15/1992", "04/03/1992"))
+value <- c(4.1, 4.5, 3.3)
+datem <- as.monthly(date)
+lag(value, along_with = datem)
 }
 
