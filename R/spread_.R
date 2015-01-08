@@ -1,13 +1,14 @@
 #' @export
-spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FALSE, drop = TRUE ) {
+#' @method spread_ data.table
+spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FALSE, drop = TRUE) {
   id <- setdiff(names(data), c(key_col, value_col))
   length_lhs <- length(id)
   if (!length_lhs) {
     id <- tempname("temp", data)
-    data[, (id) := 1:.N] 
-    on.exit(data[, (id) :=NULL])
+    data <- shallow(data)
+    data[, (id) := 1] 
   }
-  else if (anyDuplicated(data, by = c(id, key_col))){
+  if (anyDuplicated(data, by = c(id, key_col))){
         overall <- dplyr::id(data[,c(id, key_col), with = FALSE])
         groups <- split(seq_along(overall), overall)
         groups <- groups[vapply(groups, length, integer(1)) > 1]
@@ -16,7 +17,7 @@ spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FA
         stop("Duplicate identifiers for rows ", paste(str, collapse = ", "),
              call. = FALSE)
   }
-  formula <- reformulate(termlabels = key_col , response = id)
+  formula <- as.formula(paste(paste(id, collapse = "+"), paste(key_col, collapse = "+"), sep = "~"))
   data2 <- dcast.data.table(data, formula, value.var = value_col, fill = fill, drop = drop)
   if (!length_lhs) {
     data2[, (id) := NULL]
@@ -28,7 +29,7 @@ spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FA
 }
 
 #' @export
-spread_.tbl_dt <- function(data, key_col, value_col, fill = NA,
-                           convert = FALSE) {
+#' @method spread_ data.table
+spread_.tbl_dt <- function(data, key_col, value_col, fill = NA, convert = FALSE, drop = TRUE) {
   dplyr::tbl_dt(NextMethod())
 }

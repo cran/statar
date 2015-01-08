@@ -10,7 +10,7 @@
 
 <meta name="author" content="Matthieu Gomez" />
 
-<meta name="date" content="2014-10-31" />
+<meta name="date" content="2015-01-08" />
 
 <title>statar</title>
 
@@ -54,7 +54,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div id="header">
 <h1 class="title">statar</h1>
 <h4 class="author"><em>Matthieu Gomez</em></h4>
-<h4 class="date"><em>2014-10-31</em></h4>
+<h4 class="date"><em>2015-01-08</em></h4>
 </div>
 
 
@@ -106,6 +106,19 @@ DT[, value_ma :<span class="er">=</span><span class="st"> </span><span class="kw
 </div>
 <div id="data.table-functions" class="section level2">
 <h2>data.table functions</h2>
+<p><code>setpanel</code> checks no date variable is missing, that there are no duplicates for (id, along_with), and if both these conditions are satisfied, resort the data.table in place along the id and time variables.</p>
+<pre class="sourceCode r"><code class="sourceCode r">DT &lt;-<span class="st"> </span><span class="kw">data.table</span>(
+    <span class="dt">id    =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>),
+    <span class="dt">year  =</span> <span class="kw">c</span>(<span class="dv">1991</span>, <span class="dv">1993</span>, <span class="ot">NA</span>, <span class="dv">1992</span>, <span class="dv">1992</span>),
+    <span class="dt">value =</span> <span class="kw">c</span>(<span class="fl">4.1</span>, <span class="fl">4.5</span>, <span class="fl">3.3</span>, <span class="fl">3.2</span>, <span class="fl">5.2</span>)
+)
+<span class="kw">setpanel</span>(DT, id, year)
+<span class="co">#&gt; Error: Error: Variable year has missing values in 1 row(s): 3</span>
+DT &lt;-<span class="st"> </span><span class="kw">na.omit</span>(DT, <span class="dt">by =</span> <span class="st">&quot;year&quot;</span>)
+<span class="kw">setpanel</span>(DT, id, year)
+<span class="co">#&gt; Error: Variables (id, year) have duplicates for rows (3, 4)</span>
+DT &lt;-<span class="st"> </span><span class="kw">unique</span>(DT, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;year&quot;</span>))
+<span class="kw">setpanel</span>(DT, id, year)</code></pre>
 <p><code>fill_gap</code> fills in gaps in a data.table along a time variable (corresponds to Stata <code>tsfill</code>)</p>
 <pre class="sourceCode r"><code class="sourceCode r">DT &lt;-<span class="st"> </span><span class="kw">data.table</span>(
     <span class="dt">id    =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>),
