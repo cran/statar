@@ -6,7 +6,7 @@
 #' @param by Variables by which to group. Default to keys (or to keys minus last if along_with is unspecified). ee the \link[dplyr]{select} documentation.
 #' @param units Deprecated. Use elapsed dates.
 #' @param full  A boolean. When full = FALSE (default) rows are filled with respect to min and max of \code{...} within each group. When full = TRUE, rows are filled with respect to min and max of \code{...} in the whole datasets. 
-#' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.
+#' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is used.
 #' @param rollends  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end
 #' @param vars Used to work around non-standard evaluation.
 #' @examples
@@ -21,6 +21,8 @@
 #' DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))]
 #' DT[, datem :=  as.monthly(date)]
 #' fill_gap(DT, value, along_with = datem , by = id)
+#' fill_gap(DT, value, along_with = datem , by = id, roll = "nearest")
+
 
 #' @export
 fill_gap <- function(x, ..., along_with, by = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
@@ -82,9 +84,9 @@ fill_gap_ <- function(x, vars, along_with, by = NULL, full = FALSE, roll = FALSE
     setattr(ans[[along_with]], name, attributes(get(along_with, x))[[name]]) 
   }
   setkeyv(ans, c(byvars, along_with))
-  x <- x[, c(byvars,along_with, vars), with = FALSE]
-  setkeyv(x, c(byvars,along_with))
-  x <- x[ans,allow.cartesian=TRUE]
+  x <- x[, c(byvars, along_with, vars), with = FALSE]
+  setkeyv(x, c(byvars, along_with))
+  x <- x[ans, allow.cartesian = TRUE, roll = roll, rollends = rollends]
   x
 }
 

@@ -1,14 +1,13 @@
-#' returns duplicated rows
+#' returns a data.frame with duplicated rows
 #'
-#' @param x a data.table
-#' @param ... Variables to group by. Default is the key, or everything is the data.table is not keyed.
+#' @param x a data.frame
+#' @param ... Variable on which one should check for duplicates. Default to all variables
 #' @param gen A character that specifies  the name of a new variable with the number of duplicates. Default to "N".
 #' @param vars Used to work around non-standard evaluation.
-#' @return a data.table with groups that have duplicates. 
+#' @return a data.frame with groups that have duplicates. 
 #' @examples
-#' library(data.table)
-#' DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
-#' find_duplicates(DT, a)
+#' df <- data.frame(a = rep(1:2, each = 3), b = 1:6)
+#' find_duplicates(df, a)
 #' @export
 find_duplicates <- function(x, ..., gen = "N"){
   find_duplicates_(x, vars = lazyeval::lazy_dots(...), gen = gen)
@@ -17,29 +16,20 @@ find_duplicates <- function(x, ..., gen = "N"){
 #' @export
 #' @rdname find_duplicates
 find_duplicates_ <- function(x, vars, gen = "N"){
-  stopifnot(is.data.table(x))
   names <- names(x)
   if (gen %in% names)   stop(paste("A variable named", gen, "already exists."))
   if (anyDuplicated(names))  stop("x has duplicate column names")
   dots <- lazyeval::all_dots(vars)
-  vars <- names(select_vars_(names(x), dots))
-  if (!length(vars)){
-    if (length(key(x))){
-      vars <- key(x)
-    } else{
-      vars <- names(x)
-    }
-  }
-  ans <- x[, .I[.N>1L], by=c(vars)]
-  ans <- ans[[length(ans)]]
-  ans <- x[ans]
-  n_groups <- nrow(unique(ans, by = vars))
-  message(paste(n_groups,"groups have duplicates"))
-  if (nrow(ans)){
-    ans[, c(gen) := .N, by = c(vars)]
-    setkeyv(ans, c(gen, vars))
-    setcolorder(ans, c(gen, vars, setdiff(names(ans), c(vars, gen))))
-  }
-  ans[]
+  byvars <- names(select_vars_(names, dots))
+  byvars <-  c(vapply(groups(x), as.character, character(1)), byvars)
+  ans <- mutate_(group_by_(x, .dots = byvars), .dots = setNames(list(~n()), gen))
+  ans <- filter_(ans, interp(~gen > 1, gen = as.name(gen)))
+  n_groups <- nrow(ans)
+  message(paste(n_groups, "groups have duplicates"))
+  if (n_groups>0){
+    ans <- arrange_(ans, .dots = c(gen, byvars))
+    ans <- select_(ans, interp(~gen, gen =as.name(gen)), interp(~byvars, byvars =as.name(byvars)), ~everything())
+  } 
+  return(ans)
 }
 
