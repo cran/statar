@@ -1,7 +1,7 @@
-#' Join two data.tables together 
+#' Join two data frames together 
 #' 
-#' @param x The master data.table
-#' @param y The using data.table
+#' @param x The master data.frame
+#' @param y The using data.frame
 #' @param on Character vectors specifying variables to match on. Default to common names between x and y. 
 #' @param kind The kind of (SQL) join among "full" (default), "left", "right", "inner", "semi", "anti" and "cross". 
 #' @param suffixes A character vector of length 2 specifying suffix of overlapping columns. Defaut to ".x" and ".y".
@@ -10,7 +10,7 @@
 #' @param inplace A boolean. In case "kind"= "left" and RHS of check is 1, the merge can be one in-place. 
 #' @param update A boolean. For common variables in x and y not specified in "on", replace missing observations by the non missing observations in y. 
 #' @param type Deprecated
-#' @return A data.table that joins rows in master and using datases. Importantly, if x or y are not keyed, the join may change their row orders.
+#' @return A data.frame that joins rows in master and using datases. Importantly, if x or y are not keyed, the join may change their row orders.
 #' @examples
 #' library(dplyr)
 #' x <- data.frame(a = rep(1:2, each = 3), b=1:6)
@@ -85,10 +85,10 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
       }
     if (kind %in% c("left", "right", "full", "inner")){
       if (!gen == FALSE){
-        if (gen %chin% names(x)){
+        if (gen %in% names(x)){
           stop(paste0(gen," alreay exists in master"))
         }
-        if (gen %chin% names(y)){
+        if (gen %in% names(y)){
           stop(paste0(gen," alreay exists in using"))
         }
         idm <- tempname(c(names(x),names(y),gen))
@@ -112,7 +112,7 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
         out <- mutate_(out, .dots = setNames(list(~3L), gen))
         out <- mutate_(out, .dots = setNames(list(interp(~ifelse(is.na(v), 1, gen), v=as.name(idu), gen = as.name(gen))), gen))
         out <- mutate_(out, .dots = setNames(list(interp(~ifelse(is.na(v), 1, gen), v=as.name(idm), gen = as.name(gen))), gen))
-        out <- select(out, - one_of(idm, idu))
+        out <- select_(out, ~- one_of(idm, idu))
       }
     
       if (update){
@@ -120,7 +120,7 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
           newvx <- paste0(v,suffixes[1])
           newvy <- paste0(v,suffixes[2])
           out <- mutate_(out, .dots = setNames(list(interp(~ifelse(is.na(newvx) & !is.na(newvy), newvy, newvx), newvx =as.name(newvx), newvy = as.name(newvy))), newvx))
-          out <- select(out, -one_of(newvy))
+          out <- select_(out, ~-one_of(newvy))
           out <- rename_(out, .dots = setNames(list(interp(~v, v = as.name(paste0(v, suffixes[1])))), v))
         }
       }

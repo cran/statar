@@ -13,7 +13,7 @@ vignette: >
 # Summary functions
 
 ## summarize 
-sum_up prints detailed summary statistics (corresponds to Stata summarize)
+`sum_up` prints detailed summary statistics (corresponds to Stata summarize)
 
 ```R
 N <- 100
@@ -29,7 +29,7 @@ df %>% group_by(v1) %>%  sum_up()
 
 
 
-tab prints distinct rows with their count
+`tab` prints distinct rows with their count. Compared to the dplyr function `count`, this command just adds Frequency and Cumulative frequency.
 
 ```R
 N <- 1e2 ; K = 10
@@ -44,95 +44,46 @@ df %>% group_by(id) %>% tab(v1)
 
 
 
-
-
 ## Join
-`join` is a wrapper for dplyr merge functionalities.
+`join` is a wrapper for dplyr merge functionalities, with two added functions
 
-- The option "kind" specifies the kind of join based on SQL syntax. Possible kinds are : left, right, inner, full, semi, anti and cross.
-
-  |Stata     | statar
-  |:-----------|------------
-  |merge v1   | join(x, y, kind = "full") 
-  |merge v1, keep(master matched)  |  join(x, y, kind = "left")
-  |merge v1, keep(matched using)  | join(x, y, kind = "right")
-  |merge v1, keep(matched)| join(x, y, kind = "inner")
-  |merge v1, keep(matched) keepusing(v1)| join(x, y, kind = "semi")
-  |merge v1, keep(master) keepusing(v1)| join(x, y, kind = "anti")
-  |crossby   | join(x, y, kind = "cross")
-
-- The option "check" checks there are no duplicates in the master or using data.tables (as in Stata).
+- The option `check` checks there are no duplicates in the master or using data.tables (as in Stata).
 
   ```r
   # merge m:1 v1
   join(x, y, kind = "full", check = m~1) 
   ```
-- The option "gen" specifies the name of a new variable that identifies non matched and matched rows (as in Stata).
+- The option `gen` specifies the name of a new variable that identifies non matched and matched rows (as in Stata).
 
   ```r
   # merge m:1 v1, gen(_merge) 
   join(x, y, kind = "full", gen = "_merge") 
   ```
 
-
-- The option "update" allows to update missing values of the master dataset by the value in the using dataset
+- The option `update` allows to update missing values of the master dataset by the value in the using dataset
 
 
 
 ## Visual exploration
 
-`graph` is a wrapper for `ggplot2` functionalities, useful for interactive exploration of datasets
+`stat_binmean()` is a layer for ggplot2. It allows to compute the mean of y over the mean of x within bins of x, similarly to Stata command [binscatter](https://github.com/michaelstepner/binscatter),
 
 ```R
-N <- 10000
-DT <- data.table(
-  id = sample(c("id1","id2","id3"), N, TRUE),
-  v1 = sample(c(1:5), N, TRUE),
-  v2 = rnorm(N, sd = 20),
-  v3 = sample(runif(100, max=100), N, TRUE)
-)
-DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5)]
-graph(DT)
+ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length)) + stat_binmean()
 ```
 <img src="output_2_0.png" height = "400">
 
 ```R
-graph(DT, by = id)
+ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n=10) 
 ```
 <img src="output_3_0.png" height = "400">
 
-```R
-graph(DT, by = id, type = "boxplot")
-```
-<img src="box.png" height = "400">
+Since `stat_binmean` is just a layer for ggplo2, you can surimpose any model fit 
 
 ```R
-graph(DT, v3, v4, along_with = v2)
+ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n=10) + stat_smooth(method = "lm", se = FALSE)
 ```
-<img src="v2.png" height = "400">
-
-
-
-You can also regress the variable on another, after partialing out thanks to control specified in formula: 
-```R
-graph(DT, v3, along_with = v2, by = id, type = "felm", formula = ~v4|v1)
-```
-<img src="v2by.png" height = "400">
-
-
-
-
-## Syntax
-The functions select variables similarly to `dplyr` syntax (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). 
-
-```R
-# NSE version
-sum_up(DT, list(v2, v3), by = list(id,v1))
-# SE version
-sum_up_(DT, c("v2","v3"), by = c("id","v1"))
-```
-
-
+<img src="output_4_0.png" height = "400">
 
 
 

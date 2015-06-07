@@ -2,19 +2,38 @@
 #'
 #' @docType package
 #' @name statar
-#' @import data.table 
+#' @import proto 
 #' @import ggplot2
+#' @importFrom data.table is.data.table
+#' @importFrom data.table key
+#' @importFrom data.table setnames
+#' @importFrom data.table setattr
+#' @importFrom data.table setkeyv
+#' @importFrom data.table setDF
+#' @importFrom data.table setDT
+#' @importFrom data.table dcast.data.table
+#' @importFrom data.table :=
+#' @importFrom dplyr "%>%"
+#' @importFrom dplyr count
+#' @importFrom dplyr  desc
+#' @importFrom dplyr  filter
+#' @importFrom dplyr distinct_
+#' @importFrom dplyr ungroup
+#' @importFrom dplyr group_indices_
 #' @importFrom dplyr funs_
 #' @importFrom dplyr with_order
 #' @importFrom dplyr mutate_each_
 #' @importFrom dplyr slice
+#' @importFrom dplyr count_
 #' @importFrom dplyr select_vars_
 #' @importFrom dplyr select_
 #' @importFrom dplyr tbl_vars
 #' @importFrom dplyr filter_
 #' @importFrom dplyr group_by
 #' @importFrom dplyr n_distinct
+#' @importFrom dplyr distinct
 #' @importFrom dplyr sample_n
+#' @importFrom dplyr arrange
 #' @importFrom dplyr arrange_
 #' @importFrom dplyr group_by_
 #' @importFrom dplyr summarize
@@ -38,13 +57,8 @@
 #' @importFrom dplyr anti_join
 #' @importFrom dplyr data_frame
 #' @importFrom dplyr bind_cols
-#' @importFrom grid grid.layout
-#' @importFrom grid grid.newpage
-#' @importFrom grid pushViewport
-#' @importFrom grid viewport
-#' @importFrom Hmisc wtd.quantile
-#' @importFrom lfe demeanlist
-#' @importFrom lfe felm
+#' @importFrom dplyr bind_rows
+#' @importFrom dplyr rbind_all
 #' @importFrom lazyeval as.lazy
 #' @importFrom lazyeval lazy_dots
 #' @importFrom lazyeval lazy_eval
@@ -52,18 +66,11 @@
 #' @importFrom lazyeval common_env
 #' @importFrom lazyeval interp
 #' @importFrom lazyeval lazy
-#' @importFrom lubridate period
-#' @importFrom lubridate second
-#' @importFrom lubridate weeks
-#' @importFrom lubridate years
 #' @importFrom matrixStats weightedMean
 #' @importFrom matrixStats colWeightedMeans
 #' @importFrom matrixStats colRanges
 #' @importFrom parallel mclapply
 #' @importFrom stargazer stargazer
-#' @importFrom stats lag
-#' @importFrom stringdist stringdist
-#' @importFrom stringdist stringdistmatrix
 #' @importFrom stringr str_replace
 #' @importFrom stringr str_match
 #' @importFrom stringr str_detect
@@ -74,4 +81,6 @@
 #' @importFrom tidyr spread_
 NULL
 
+globalVariables(".SD")
+globalVariables("Statbinmean")
 
