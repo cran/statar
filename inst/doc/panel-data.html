@@ -190,81 +190,36 @@ hr {
 
 <pre><code class="R">year &lt;- c(1989, 1991, 1992)
 value &lt;- c(4.1, 4.5, 3.3)
-tlag(value, 1, along_with = year)
+tlag(value, 1, time = year)
 library(lubridate)
 date &lt;- mdy(c(&quot;01/04/1992&quot;, &quot;03/15/1992&quot;, &quot;04/03/1992&quot;))
 datem &lt;- as.monthly(date)
 value &lt;- c(4.1, 4.5, 3.3)
-tlag(value, along_with = datem) 
+tlag(value, time = datem) 
 </code></pre>
 
-<p><code>roll_lag</code>/<code>roll_lead</code> apply a function on a vector over a window defined by a time variable</p>
+<p>In constrast to comparable functions in <code>zoo</code> and <code>xts</code>, these functions can be applied to any vector. This allows them to be used within  a <code>dplyr</code> chain:</p>
 
-<pre><code class="R">year &lt;- c(1989, 1991, 1992)
-value &lt;- c(1, 1, 1)
-roll_lag(value, sum, n = 2, order_by = year) # rolling sum based on the two previous rows
-roll_lag(value, sum, n = 2, along_with = year) #  rolling sum based on dates in [year-2, year]
-roll_lag(value, sum, n = 2, along_with = year, closed= c(TRUE, FALSE)) #  rolling sum based on dates in [year-2, year[
-</code></pre>
-
-<p>Since these functions can be applied to any vector (in constrast to <code>zoo</code> and <code>xts</code>), they can be used <em>within groups</em>. For instance, using <code>data.table</code>:</p>
-
-<pre><code class="R">DT &lt;- data.table(
+<pre><code class="R">df &lt;- data_frame(
     id    = c(1, 1, 1, 2, 2),
     year  = c(1989, 1991, 1992, 1991, 1992),
     value = c(4.1, 4.5, 3.3, 3.2, 5.2)
 )
-DT[, value_l := tlag(value, along_with = year), by = id]
-DT[, value_ma := roll_lag(value, mean, n = 3, along_with = year), by = id]
+df %&gt;% group_by(id) %&gt;% mutate(value_l = tlag(value, time = year))
 </code></pre>
 
-<h2>data.table functions</h2>
+<p><code>is.panel</code> checks whether a dataset is a panel i.e. the  time variable is never missing and the combinations (id, time) are unique.</p>
 
-<p><code>setpanel</code> resort the data.table in place along the id and time variables. It returns an error if (i)  date variable is missing or (ii) there are duplicates for (id, along_with).</p>
-
-<pre><code class="R">DT &lt;- data.table(
-    id    = c(1, 1, 1, 2, 2),
+<pre><code class="R">df &lt;- data_frame(
+    id1    = c(1, 1, 1, 2, 2),
+    id2   = 1:5,
     year  = c(1991, 1993, NA, 1992, 1992),
     value = c(4.1, 4.5, 3.3, 3.2, 5.2)
 )
-setpanel(DT, id, year)
-#&gt; Error: Error: Variable year has missing values in 1 row(s): 3
-DT &lt;- na.omit(DT, by = &quot;year&quot;)
-setpanel(DT, id, year)
-#&gt; Error: Variables (id, year) have duplicates for rows (3, 4)
-DT &lt;- unique(DT, by = c(&quot;id&quot;, &quot;year&quot;))
-setpanel(DT, id, year)
-</code></pre>
-
-<p><code>fill_gap</code> fills in gaps in a data.table along a time variable (corresponds to Stata <code>tsfill</code>)</p>
-
-<pre><code class="R">DT &lt;- data.table(
-    id    = c(1, 1, 1, 2, 2),
-    year  = c(1992, 1989, 1991, 1992, 1991),
-    value = c(4.1, 4.5, 3.3, 3.2, 5.2)
-)
-fill_gap(DT, value, along_with = year, by = id)
-library(lubridate)
-DT[, date:= mdy(c(&quot;03/01/1992&quot;, &quot;04/03/1992&quot;, &quot;07/15/1992&quot;, &quot;08/21/1992&quot;, &quot;10/03/1992&quot;))]
-DT[, datem :=  as.monthly(date)]
-fill_gap(DT, value, along_with = datem, by = id)
-</code></pre>
-
-<p><code>setna</code> fills in missing values along a time variable. <code>setna</code> inherits from the data.table options <code>roll</code> and <code>rollends</code></p>
-
-<pre><code class="R">DT &lt;- data.table(
- id    = c(1, 1, 1, 1, 2, 2),
- date  = c(1992, 1989, 1991, 1993, 1992, 1991),
- value = c(NA, NA, 3, NA, 3.2, 5.2)
-)
-DT1 &lt;- copy(DT)
-setkey(DT1, id, date)
-DT2 &lt;- copy(DT1)
-DT3 &lt;- copy(DT1)
-setna(DT, value, along_with = date, by = id)
-setna(DT1)
-setna(DT2, value, rollends = TRUE)
-setna(DT3, value, roll = &quot;nearest&quot;)
+is.panel(df, id1, year)
+df &lt;- df %&gt;% filter(!is.na(year))
+is.panel(df, id1, year)
+is.panel(df, id1, id2, year)
 </code></pre>
 
 </body>
