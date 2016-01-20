@@ -1,6 +1,6 @@
 Package: statar
 Title: Tools Inspired by Stata to Manipulate Tabular Data
-Version: 0.5.0
+Version: 0.6.0
 Authors@R: person("Matthieu","Gomez", email = "mattg@princeton.edu", role =
     c("aut", "cre"))
 Description: A set of tools inspired by Stata to explore data.frames (summarize,
@@ -15,8 +15,8 @@ Suggests: knitr, lubridate, testthat
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
 NeedsCompilation: no
-Packaged: 2016-01-01 20:13:27 UTC; Matthieu
+Packaged: 2016-01-19 23:26:44 UTC; Matthieu
 Author: Matthieu Gomez [aut, cre]
 Maintainer: Matthieu Gomez <mattg@princeton.edu>
 Repository: CRAN
-Date/Publication: 2016-01-01 21:59:51
+Date/Publication: 2016-01-20 09:12:34

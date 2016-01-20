@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>Panel data</title>
+<title>Elapsed dates</title>
 
 <script type="text/javascript">
 window.onload = function() {
@@ -163,9 +163,7 @@ hr {
 </head>
 
 <body>
-<h1>Panel data</h1>
-
-<h2>Elapsed dates</h2>
+<h3>Elapsed dates</h3>
 
 <p>The classes &ldquo;monthly&rdquo; and &ldquo;quarterly&rdquo;  print as dates and are compatible with usual time extraction (ie <code>month</code>, <code>year</code>, etc). Yet, they are stored as integers representing the number of elapsed periods since 1970/01/0 (resp in week, months, quarters). This is particularly handy for simple algebra:</p>
 
@@ -184,7 +182,7 @@ hr {
  #&gt; [1] 1992 1992 1992
 </code></pre>
 
-<h2>Vector functions</h2>
+<h3>lag / lead</h3>
 
 <p><code>tlag</code>/<code>tlead</code> a vector along a time variable (and NOT with respet to a number of row)</p>
 
@@ -208,6 +206,8 @@ tlag(value, time = datem)
 df %&gt;% group_by(id) %&gt;% mutate(value_l = tlag(value, time = year))
 </code></pre>
 
+<h3>is.panel</h3>
+
 <p><code>is.panel</code> checks whether a dataset is a panel i.e. the  time variable is never missing and the combinations (id, time) are unique.</p>
 
 <pre><code class="R">df &lt;- data_frame(
@@ -216,10 +216,25 @@ df %&gt;% group_by(id) %&gt;% mutate(value_l = tlag(value, time = year))
     year  = c(1991, 1993, NA, 1992, 1992),
     value = c(4.1, 4.5, 3.3, 3.2, 5.2)
 )
-is.panel(df, id1, year)
-df &lt;- df %&gt;% filter(!is.na(year))
-is.panel(df, id1, year)
-is.panel(df, id1, id2, year)
+df %&gt;% group_by(id1) %&gt;% is.panel(year)
+df1 &lt;- df %&gt;% filter(!is.na(year))
+df1 %&gt;% is.panel(year)
+df1 %&gt;% group_by(id1) %&gt;% is.panel(year)
+df1 %&gt;% group_by(id1, id2) %&gt;% is.panel(year)
+</code></pre>
+
+<h3>fill_gap</h3>
+
+<p>fill_gap transforms a unbalanced panel into a balanced panel.  It corresponds to the stata command <code>tsfill</code>. Missing observations are added as rows with missing values.</p>
+
+<pre><code class="R">df &lt;- data_frame(
+    id    = c(1, 1, 1, 2),
+    datem  = as.monthly(mdy(c(&quot;04/03/1992&quot;, &quot;01/04/1992&quot;, &quot;03/15/1992&quot;, &quot;05/11/1992&quot;))),
+    value = c(4.1, 4.5, 3.3, 3.2)
+)
+df %&gt;% group_by(id) %&gt;% fill_gap(datem)
+df %&gt;% group_by(id) %&gt;% fill_gap(datem, full = TRUE)
+df %&gt;% group_by(id) %&gt;% fill_gap(datem, roll = &quot;nearest&quot;)
 </code></pre>
 
 </body>

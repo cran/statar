@@ -7,7 +7,7 @@
 \usage{
 sum_up(x, ..., d = FALSE, w = NULL, i = NULL, digits = 3)
 
-sum_up_(x, vars, d = FALSE, w = NULL, i = NULL, digits = 3)
+sum_up_(x, ..., .dots, d = FALSE, w = NULL, i = NULL, digits = 3)
 }
 \arguments{
 \item{x}{a data.frame}
@@ -22,7 +22,7 @@ sum_up_(x, vars, d = FALSE, w = NULL, i = NULL, digits = 3)
 
 \item{digits}{Number of significant decimal digits. Default to 3}
 
-\item{vars}{Used to work around non-standard evaluation.}
+\item{.dots}{Used to work around non-standard evaluation.}
 }
 \value{
 a data.frame

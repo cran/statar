@@ -7,14 +7,14 @@
 \usage{
 tab(x, ...)
 
-tab_(x, vars = NULL, i = NULL, w = NULL, na.rm = FALSE, sort = sort)
+tab_(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort)
 }
 \arguments{
 \item{x}{a vector or a data.frame}
 
 \item{...}{Variable to include. If length is two, a special cross tabulation table is printed although the a long data.frame is always (invisibly) returned.}
 
-\item{vars}{Used to work around non-standard evaluation.}
+\item{.dots}{Used to work around non-standard evaluation.}
 
 \item{i}{Condition to apply function on certain rows only}
 
