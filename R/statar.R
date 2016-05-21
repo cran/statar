@@ -70,7 +70,6 @@
 #' @importFrom matrixStats colWeightedMeans
 #' @importFrom matrixStats colRanges
 #' @importFrom parallel mclapply
-#' @importFrom stargazer stargazer
 #' @importFrom stringr str_replace
 #' @importFrom stringr str_match
 #' @importFrom stringr str_detect

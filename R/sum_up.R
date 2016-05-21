@@ -152,11 +152,10 @@ print_pretty_summary <- function(x, digits = 3){
   if ("skewness" %in% names(x)){
     x1 <- select_(x, ~-one_of(c("p1","p5","p10","p25","p50","p75","p90","p95","p99")))
     x2 <-  select_(x, ~-one_of(c("N","N_NA","mean","sd","skewness","kurtosis", "min", "max")))
-   stargazer(format(x1, digits = 3), type = "text", summary = FALSE, rownames = FALSE)
-   stargazer(format(x2, digits = 3), type = "text", summary = FALSE, rownames = FALSE)
+   print(format(x1, digits = digits, scientific = FALSE))
+   print(format(x2, digits = digits, scientific = FALSE))
   } else{
-    setDF(x)
-   stargazer(format(x, digits = 3), type = "text", summary = FALSE, rownames = FALSE)
+    print(format(x, digits = digits, scientific = FALSE))
   }
 }
 
