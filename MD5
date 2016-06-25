@@ -1,5 +1,5 @@
-87ff3d8a2959ae86d0000a7ac8e3181a *DESCRIPTION
-548d4e581fe8f3e9e5a5c610a61709eb *NAMESPACE
+7f1e228aeda779686d057b4dcaa1d2ee *DESCRIPTION
+bc2e6fe50e87880da05381a18bbdc2a1 *NAMESPACE
 972e861ceada69baa59a71105e289dba *R/count.R
 5a8a218289f14f8390ad5d4067e55925 *R/elapsed_dates.R
 7dd6e00b5ef0ad37192af00de7c5e45b *R/fill_gap.R
@@ -7,9 +7,9 @@
 33ab25cdaa1049ac3e107121630bf5fc *R/is.panel.R
 d0347dae9b00ba4bd15454cc997441af *R/join.R
 6d4300488dab54ac8d8df3bd42452cfe *R/pctile.R
-a4f39f77b546ecc461624d1a040353ae *R/spread_.R
+118e260b4bc1a2655ff3f34aa563f6f2 *R/spread_.R
 b8b71affbd997f4f88e73769d54578a7 *R/stat_binmean.R
-e502fb64c5c090951f69e71c97f68133 *R/statar.R
+594f9b461ca205039fe50cfefaaacb2f *R/statar.R
 f784e8d18a8c2b3a0aa61a6ba1d01fd5 *R/sum_up.R
 671b89a5c0115cd188f82e40a7ca1da8 *R/tab.R
 c9e4b7103df652c03bbcf280dcbe98e3 *R/tempname.R
@@ -20,13 +20,13 @@ a977fc100a53d47f3b6ce8c9a4d722b7 *R/winsorize.R
 52aad9bca7c958e80ae792b121528266 *README.md
 467431eb4d13d64a37267d7310cdf4e7 *build/vignette.rds
 dea3144458cb51b2f6bc60b0bdfbbffe *inst/doc/data-frames.Rmd
-ce671a2f7cf6feeb26ef5bc58792e8fc *inst/doc/data-frames.html
+34b5835d48eb34381e5ef67692e81f28 *inst/doc/data-frames.html
 64fd0a912e3d0336857d2b1af66e2b82 *inst/doc/graph.Rmd
-6de60398b999c01116d32d84ced274ae *inst/doc/graph.html
+66140a7254f36c44cc79b63be66becde *inst/doc/graph.html
 742553d29ab2eac942f4966d2d4c9529 *inst/doc/panel-data.Rmd
-261917443018d1f806b33af51d71254e *inst/doc/panel-data.html
+1497f36225a2359539c7bfb7839c9c33 *inst/doc/panel-data.html
 738d10c6338f1f62bc35d4073abc389a *inst/doc/vector.Rmd
-6f73c1e40935f223c956c0152fecdb5d *inst/doc/vector.html
+c94c7b5eb074e5307d0e49d8d3725a83 *inst/doc/vector.html
 206355be0343fa999e62b9cd3c19c48e *man/count.Rd
 67ec82d88de4f4f3ba2e2f8f4b919f8e *man/elapsed.Rd
 eb4ad88a2521eee4f2f292e38eb6d413 *man/fill_gap.Rd
