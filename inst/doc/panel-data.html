@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -12,7 +12,7 @@
 
 <meta name="author" content="Matthieu Gomez" />
 
-<meta name="date" content="2016-06-24" />
+<meta name="date" content="2017-04-04" />
 
 <title>statar</title>
 
@@ -52,7 +52,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 
 <h1 class="title toc-ignore">statar</h1>
 <h4 class="author"><em>Matthieu Gomez</em></h4>
-<h4 class="date"><em>2016-06-24</em></h4>
+<h4 class="date"><em>2017-04-04</em></h4>
 
 
 
@@ -75,7 +75,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </div>
 <div id="lag-lead" class="section level3">
 <h3>lag / lead</h3>
-<p><code>tlag</code>/<code>tlead</code> a vector along a time variable (and NOT with respet to a number of row)</p>
+<p><code>tlag</code>/<code>tlead</code> a vector with respect to a number of periods, <strong>not</strong> with respect to the number of rows</p>
 <pre class="sourceCode r"><code class="sourceCode r">year &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1989</span>, <span class="dv">1991</span>, <span class="dv">1992</span>)
 value &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">4.1</span>, <span class="fl">4.5</span>, <span class="fl">3.3</span>)
 <span class="kw">tlag</span>(value, <span class="dv">1</span>, <span class="dt">time =</span> year)
@@ -84,7 +84,7 @@ date &lt;-<span class="st"> </span><span class="kw">mdy</span>(<span class="kw">
 datem &lt;-<span class="st"> </span><span class="kw">as.monthly</span>(date)
 value &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">4.1</span>, <span class="fl">4.5</span>, <span class="fl">3.3</span>)
 <span class="kw">tlag</span>(value, <span class="dt">time =</span> datem) </code></pre>
-<p>In constrast to comparable functions in <code>zoo</code> and <code>xts</code>, these functions can be applied to any vector. This allows them to be used within a <code>dplyr</code> chain:</p>
+<p>In constrast to comparable functions in <code>zoo</code> and <code>xts</code>, these functions can be applied to any vector and be used within a <code>dplyr</code> chain:</p>
 <pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">data_frame</span>(
     <span class="dt">id    =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>),
     <span class="dt">year  =</span> <span class="kw">c</span>(<span class="dv">1989</span>, <span class="dv">1991</span>, <span class="dv">1992</span>, <span class="dv">1991</span>, <span class="dv">1992</span>),

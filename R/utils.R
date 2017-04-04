@@ -1,3 +1,4 @@
+
 dt_env <- function(dt, env, byvars) {
   env <- new.env(parent = env, size = 2L)
   env$dt <- dt

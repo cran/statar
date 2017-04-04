@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -12,7 +12,7 @@
 
 <meta name="author" content="Matthieu Gomez" />
 
-<meta name="date" content="2016-06-24" />
+<meta name="date" content="2017-04-04" />
 
 <title>statar</title>
 
@@ -52,13 +52,13 @@ code > span.er { color: #ff0000; font-weight: bold; }
 
 <h1 class="title toc-ignore">statar</h1>
 <h4 class="author"><em>Matthieu Gomez</em></h4>
-<h4 class="date"><em>2016-06-24</em></h4>
+<h4 class="date"><em>2017-04-04</em></h4>
 
 
 
-<div id="sum_up" class="section level2">
-<h2>sum_up</h2>
-<p><code>sum_up</code> prints detailed summary statistics (corresponds to Stata summarize)</p>
+<div id="sum_up-summarize" class="section level2">
+<h2>sum_up = summarize</h2>
+<p><code>sum_up</code> prints detailed summary statistics (corresponds to Stata <code>summarize</code>)</p>
 <pre class="sourceCode r"><code class="sourceCode r">N &lt;-<span class="st"> </span><span class="dv">100</span>
 df &lt;-<span class="st"> </span><span class="kw">data_frame</span>(
   <span class="dt">id =</span> <span class="dv">1</span>:N,
@@ -69,20 +69,20 @@ df &lt;-<span class="st"> </span><span class="kw">data_frame</span>(
 df %&gt;%<span class="st"> </span><span class="kw">sum_up</span>(<span class="kw">starts_with</span>(<span class="st">&quot;v&quot;</span>), <span class="dt">d =</span> <span class="ot">TRUE</span>)
 df %&gt;%<span class="st"> </span><span class="kw">group_by</span>(v1) %&gt;%<span class="st">  </span><span class="kw">sum_up</span>()</code></pre>
 </div>
-<div id="tab" class="section level2">
-<h2>tab</h2>
-<p><code>tab</code> prints distinct rows with their count. Compared to the dplyr function <code>count</code>, this command just adds Frequency and Cumulative frequency.</p>
+<div id="tab-tabulate" class="section level2">
+<h2>tab = tabulate</h2>
+<p><code>tab</code> prints distinct rows with their count. Compared to the dplyr function <code>count</code>, this command adds frequency, percent, and cumulative percent.</p>
 <pre class="sourceCode r"><code class="sourceCode r">N &lt;-<span class="st"> </span><span class="fl">1e2</span> ; K =<span class="st"> </span><span class="dv">10</span>
 df &lt;-<span class="st"> </span><span class="kw">data_frame</span>(
-  <span class="dt">id =</span> <span class="kw">sample</span>(<span class="dv">5</span>, N, <span class="ot">TRUE</span>),
-  <span class="dt">v1 =</span> <span class="kw">sample</span>(<span class="dv">5</span>, N, <span class="ot">TRUE</span>)
+  <span class="dt">id =</span> <span class="kw">sample</span>(<span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1</span>:<span class="dv">5</span>), N/K, <span class="ot">TRUE</span>),
+  <span class="dt">v1 =</span> <span class="kw">sample</span>(<span class="dv">1</span>:<span class="dv">5</span>, N/K, <span class="ot">TRUE</span>)       
 )
-<span class="kw">tab</span>(df, id, v1)
-<span class="kw">tab</span>(df, id, v1, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
-df %&gt;%<span class="st"> </span><span class="kw">group_by</span>(id) %&gt;%<span class="st"> </span><span class="kw">tab</span>(v1)</code></pre>
+<span class="kw">tab</span>(df, id)
+<span class="kw">tab</span>(df, id, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
+<span class="kw">tab</span>(df, id, v1)</code></pre>
 </div>
-<div id="join" class="section level2">
-<h2>join</h2>
+<div id="join-merge" class="section level2">
+<h2>join = merge</h2>
 <p><code>join</code> is a wrapper for dplyr merge functionalities, with two added functions</p>
 <ul>
 <li>The option <code>check</code> checks there are no duplicates in the master or using data.tables (as in Stata).</li>

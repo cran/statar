@@ -36,7 +36,7 @@ The classes "monthly" and "quarterly"  print as dates and are compatible with us
 
 ### lag / lead
 
-`tlag`/`tlead` a vector along a time variable (and NOT with respet to a number of row)
+`tlag`/`tlead` a vector with respect to a number of periods, **not** with respect to the number of rows
 
 ```R
 year <- c(1989, 1991, 1992)
@@ -50,7 +50,7 @@ tlag(value, time = datem)
 ```
 
 
-In constrast to comparable functions in `zoo` and `xts`, these functions can be applied to any vector. This allows them to be used within  a `dplyr` chain:
+In constrast to comparable functions in `zoo` and `xts`, these functions can be applied to any vector and be used within  a `dplyr` chain:
 
 
 ```R

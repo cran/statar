@@ -1,7 +1,7 @@
 statar
 ======
 
-statar contains functions inspired by useful Stata commands.
+This package contains R functions corresponding to useful Stata commands.
 
 The package includes:
 - [vector functions](vignettes/vector.Rmd) (count, sample_mode, xtile, pctile, winsorize)
@@ -11,7 +11,7 @@ The package includes:
 
 You can install 
 
-- The latest released version from [CRAN](http://cran.r-project.org/package=statar) with
+- The latest released version from [CRAN](https://CRAN.R-project.org/package=statar) with
 
 	```R
 	install.packages("statar")

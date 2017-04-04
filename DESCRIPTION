@@ -1,6 +1,6 @@
 Package: statar
 Title: Tools Inspired by 'Stata' to Manipulate Tabular Data
-Version: 0.6.2
+Version: 0.6.3
 Authors@R: person("Matthieu","Gomez", email = "mattg@princeton.edu", role =
     c("aut", "cre"))
 Description: A set of tools inspired by 'Stata' to explore data.frames ('summarize',
@@ -11,12 +11,12 @@ BugReports: https://github.com/matthieugomez/statar/issues
 Depends: R (>= 3.2.0)
 Imports: data.table, dplyr (>= 0.5.0), ggplot2 (>= 2.0.0), lazyeval,
         matrixStats, methods, stringr, tidyr
-Suggests: knitr, lubridate, testthat
+Suggests: knitr, lubridate, rmarkdown, testthat
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2016-06-24 22:12:17 UTC; Matthieu
+Packaged: 2017-04-04 22:07:45 UTC; Matthieu
 Author: Matthieu Gomez [aut, cre]
 Maintainer: Matthieu Gomez <mattg@princeton.edu>
 Repository: CRAN
-Date/Publication: 2016-06-25 19:07:54
+Date/Publication: 2017-04-04 22:17:41 UTC
