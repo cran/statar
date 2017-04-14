@@ -29,22 +29,7 @@ tab <- function(x, ...) {
 #' @export
 #' @method tab default
 tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
-  x <- setNames(data.frame(x), "x")
-  x <- group_by_(x, .dots =  "x")
-  x <- count_(x, vars = "x", wt = w)
-  if (na.rm){
-     x <- na.omit(x)
-   }
-  x <- mutate_(x, .dots = setNames(list(~n), "Freq."))
-  x <- mutate_(x, .dots = setNames(list(~n/sum(n)*100), "Percent"))
-  x <- mutate_(x, .dots = setNames(list(~cumsum(Percent)), "Cum."))
-
-   if (sort){
-     x <- arrange_(x, .dots = "x")
-   }
-   x <- select(x, -n)
-   statascii(x, n_groups = 1)
-   invisible(x)
+  tab(data_frame(x = x), x)
 }
 
 #' @export
