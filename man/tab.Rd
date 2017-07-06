@@ -2,23 +2,16 @@
 % Please edit documentation in R/tab.R
 \name{tab}
 \alias{tab}
-\alias{tab_}
 \title{Returns cross tabulation}
 \usage{
-tab(x, ...)
-
-tab_(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort)
+tab(x, ..., wt = NULL, na.rm = FALSE, sort = TRUE)
 }
 \arguments{
 \item{x}{a vector or a data.frame}
 
 \item{...}{Variable(s) to include. If length is two, a special cross tabulation table is printed although a long data.frame is always (invisibly) returned.}
 
-\item{.dots}{Used to work around non-standard evaluation.}
-
-\item{i}{Condition to apply function on certain rows only}
-
-\item{w}{Frequency weights. Default to NULL.}
+\item{wt}{Frequency weights. Default to NULL.}
 
 \item{na.rm}{Remove missing values. Default to FALSE}
 
@@ -40,7 +33,8 @@ df <- data_frame(
 )
 # one-way tabulation
 df \%>\% tab(id)
+df \%>\% tab(id, wt = v1)
 # two-way tabulation
 df \%>\% tab(id, v1)
-tab(df, id, i = id>=3)
+df \%>\% filter(id >= 3) \%>\% tab(id)
 }
