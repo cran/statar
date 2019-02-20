@@ -74,12 +74,12 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
           out <- merge(x, y, by = NULL)
     } else {
       if (check[[2]] == 1){
-         if (anyDuplicated(x)){ 
+         if (anyDuplicated(x[,vars])){ 
            stop(paste0("Variable(s) ",paste(vars, collapse = " ")," don't uniquely identify observations in x"), call. = FALSE)
          }
        }
       if (check[[3]] == 1){
-       if (anyDuplicated(y)){ 
+       if (anyDuplicated(y[,vars])){ 
          stop(paste0("Variable(s) ",paste(vars, collapse = " ")," don't uniquely identify observations in y"), call. = FALSE)
        }
       }
@@ -110,8 +110,8 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
 
       if (gen != FALSE){
         out <- dplyr::mutate(out, !!gen := 3L)
-        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!rlang::sym(idu)), 1, !!rlang::sym(gen)))
-        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!rlang::sym(idm)), 1, !!rlang::sym(gen)))
+        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!rlang::sym(idu)), 1L, !!rlang::sym(gen)))
+        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!rlang::sym(idm)), 2L, !!rlang::sym(gen)))
         out <- dplyr::select_at(out, setdiff(names(out), c(idm, idu)))
       }
     

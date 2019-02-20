@@ -2,24 +2,18 @@
 % Please edit documentation in R/sum_up.R
 \name{sum_up}
 \alias{sum_up}
-\title{Gives summary statistics (corresponds to Stata command summarize)}
+\title{Gives summary statistics (deprecated)}
 \usage{
-sum_up(df, ..., d = FALSE, wt = NULL)
+sum_up(...)
 }
 \arguments{
-\item{df}{a data.frame}
-
-\item{...}{Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
-
-\item{d}{Should detailed summary statistics be printed?}
-
-\item{wt}{Weights. Default to NULL.}
+\item{...}{arguments}
 }
 \value{
 a data.frame
 }
 \description{
-Gives summary statistics (corresponds to Stata command summarize)
+Gives summary statistics (deprecated)
 }
 \examples{
 library(dplyr)

@@ -1,9 +1,6 @@
-#' Gives summary statistics (corresponds to Stata command summarize)
+#' Gives summary statistics (deprecated)
 #' 
-#' @param df a data.frame
-#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
-#' @param d Should detailed summary statistics be printed?
-#' @param wt Weights. Default to NULL. 
+#' @param ... arguments
 #' @examples
 #' library(dplyr)
 #' N <- 100
@@ -18,8 +15,14 @@
 #' df %>% group_by(v1) %>% sum_up(starts_with("v"))
 #' @return a data.frame 
 #' @export
+#' 
+sum_up <- function(...){
+  .Deprecated("skim", package = "skimr", "sum_up is deprecated. User skim from the skimr package")
+  sum_up2(...)
+}
 
-sum_up <- function(df, ...,  d = FALSE, wt = NULL) {
+
+sum_up2 <- function(df, ...,  d = FALSE, wt = NULL) {
   wt = dplyr::enquo(wt)
   if (rlang::is_null(rlang::f_rhs(wt))) {
     wtvar <- character(0)
