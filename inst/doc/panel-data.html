@@ -198,7 +198,7 @@ tlag(value, time = datem)
 
 <p>In constrast to comparable functions in <code>zoo</code> and <code>xts</code>, these functions can be applied to any vector and be used within  a <code>dplyr</code> chain:</p>
 
-<pre><code class="R">df &lt;- data_frame(
+<pre><code class="R">df &lt;- tibble(
     id    = c(1, 1, 1, 2, 2),
     year  = c(1989, 1991, 1992, 1991, 1992),
     value = c(4.1, 4.5, 3.3, 3.2, 5.2)
@@ -210,7 +210,7 @@ df %&gt;% group_by(id) %&gt;% mutate(value_l = tlag(value, time = year))
 
 <p><code>is.panel</code> checks whether a dataset is a panel i.e. the  time variable is never missing and the combinations (id, time) are unique.</p>
 
-<pre><code class="R">df &lt;- data_frame(
+<pre><code class="R">df &lt;- tibble(
     id1    = c(1, 1, 1, 2, 2),
     id2   = 1:5,
     year  = c(1991, 1993, NA, 1992, 1992),
@@ -227,7 +227,7 @@ df1 %&gt;% group_by(id1, id2) %&gt;% is.panel(year)
 
 <p>fill_gap transforms a unbalanced panel into a balanced panel.  It corresponds to the stata command <code>tsfill</code>. Missing observations are added as rows with missing values.</p>
 
-<pre><code class="R">df &lt;- data_frame(
+<pre><code class="R">df &lt;- tibble(
     id    = c(1, 1, 1, 2),
     datem  = as.monthly(mdy(c(&quot;04/03/1992&quot;, &quot;01/04/1992&quot;, &quot;03/15/1992&quot;, &quot;05/11/1992&quot;))),
     value = c(4.1, 4.5, 3.3, 3.2)

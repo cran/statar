@@ -8,7 +8,7 @@
 #' @examples
 #' library(dplyr)
 #' library(lubridate)
-#' df <- data_frame(
+#' df <- tibble(
 #'     id    = c(1, 1, 1, 1),
 #'     datem  = as.monthly(mdy(c("01/01/1992", "02/01/1992", "04/01/1992", "7/11/1992"))),
 #'     value = c(4.1, 4.5, 3.3, 3.2)
@@ -22,7 +22,7 @@ fill_gap <- function(x, ...,  full = FALSE, roll = FALSE, rollends = if (roll=="
 	else if (roll>=0) c(FALSE,TRUE)
 	else c(TRUE,FALSE)) {
 	byvars <- dplyr::group_vars(x)
-	timevar <- setdiff(names(dplyr::select_vars(names(x), ...)), byvars)
+	timevar <- setdiff(names(tidyselect::vars_select(names(x), ...)), byvars)
 	if (length(timevar) > 1) {
 	    message("There should only be one variable for time")
 	}

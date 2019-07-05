@@ -6,7 +6,7 @@
 #' @return The function \code{is.panel} check that there are no duplicate combinations of the variables in ... and that no observation is missing for the last variable in ... (the time variable). 
 #' @examples
 #' library(dplyr)
-#' df <- data_frame(
+#' df <- tibble(
 #'     id1    = c(1, 1, 1, 2, 2),
 #'     id2   = 1:5,
 #'     year  = c(1991, 1993, NA, 1992, 1992),
@@ -20,7 +20,7 @@
 #' @export
 is.panel <- function(x, ..., .dots){
     byvars <- dplyr::group_vars(x)
-    timevar <- setdiff(names(dplyr::select_vars(names(x), ...)), byvars)
+    timevar <- setdiff(names(tidyselect::vars_select(names(x), ...)), byvars)
     if (length(timevar) > 1) {
         message("There should only be one variable for time")
     }

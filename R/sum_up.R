@@ -1,6 +1,9 @@
-#' Gives summary statistics (deprecated)
+#' Gives summary statistics (corresponds to Stata command summarize)
 #' 
-#' @param ... arguments
+#' @param df a data.frame
+#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
+#' @param d Should detailed summary statistics be printed?
+#' @param wt Weights. Default to NULL. 
 #' @examples
 #' library(dplyr)
 #' N <- 100
@@ -15,23 +18,18 @@
 #' df %>% group_by(v1) %>% sum_up(starts_with("v"))
 #' @return a data.frame 
 #' @export
-#' 
-sum_up <- function(...){
-  .Deprecated("skim", package = "skimr", "sum_up is deprecated. User skim from the skimr package")
-  sum_up2(...)
-}
 
 
-sum_up2 <- function(df, ...,  d = FALSE, wt = NULL) {
+sum_up <- function(df, ...,  d = FALSE, wt = NULL) {
   wt = dplyr::enquo(wt)
   if (rlang::is_null(rlang::f_rhs(wt))) {
     wtvar <- character(0)
   }
   else{
-    wtvar <- names(dplyr::select_vars(names(df), !!wt))
+    wtvar <- names(tidyselect::vars_select(names(df), !!wt))
   }
   byvars <- dplyr::group_vars(df)
-  vars <- setdiff(names(dplyr::select_vars(names(df), ...)), c(wtvar, byvars))
+  vars <- setdiff(names(tidyselect::vars_select(names(df), ...)), c(wtvar, byvars))
   if (length(vars) == 0) {
      vars <- setdiff(names(df), c(byvars, wtvar))
   }
@@ -94,7 +92,7 @@ describe <- function(df, d = FALSE, wtvar = character(0),  byvars = character(0)
     }
     sum <- do.call(cbind, sum)
     sum <- as.data.frame(t(sum))
-    sum <- dplyr::bind_cols(data_frame(names), sum)
+    sum <- dplyr::bind_cols(dplyr::tibble(names), sum)
     sum <- setNames(sum, c("Variable", "Obs","Missing","Mean","StdDev","Min", "Max"))
   } else {
     N <- nrow(df)
@@ -124,7 +122,7 @@ describe <- function(df, d = FALSE, wtvar = character(0),  byvars = character(0)
     sum <- mclapply(df, f)
     sum <- do.call(cbind, sum)
     sum <- as.data.frame(t(sum))
-    sum <- dplyr::bind_cols(data_frame(names), sum)
+    sum <- dplyr::bind_cols(dplyr::tibble(names), sum)
     sum <- setNames(sum,  c("Variable", "Obs","Missing","Mean","StdDev","Skewness","Kurtosis","Min","p1","p5","p10","p25","p50","p75","p90","p95","p99","Max"))
   }
   sum
