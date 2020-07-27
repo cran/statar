@@ -3,7 +3,6 @@
 \docType{package}
 \name{statar}
 \alias{statar}
-\alias{statar-package}
 \title{A package for applied research}
 \description{
 A package for applied research
