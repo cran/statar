@@ -10,13 +10,10 @@
 #'   \item{y}{mean of y}
 #' @examples
 #' library(ggplot2)
-#' g <- ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length)) 
-#' g + stat_binmean(n = 10)
-#' g + stat_binmean(n = 10) + stat_smooth(method = "lm", se = FALSE)
-#' g + stat_binmean(n = 0) 
-#' g <- ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species))
-#' g + stat_binmean(n = 10)
-#' g + stat_binmean(n = 10) + stat_smooth(method = "lm", se = FALSE)
+#' g <- ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length)) + stat_binmean(n = 10)
+#' g + stat_smooth(method = "lm", se = FALSE)
+#' ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n = 10)
+#' ggplot(iris, aes(x = Sepal.Width, y = Sepal.Length, weight = Petal.Length)) + stat_binmean(n = 10)
 #' @export
 stat_binmean <- function (mapping = NULL, data = NULL, geom = "point", position = "identity", show.legend = NA, inherit.aes = TRUE, na.rm = FALSE, n = 20, ...) {
   layer(
@@ -52,11 +49,11 @@ StatBinmean <-  ggproto("StatBinmean", Stat,
    # compute mean within (group, binx)
    data <- data %>% dplyr::group_by(group, binx)
     if ("weight" %in% names(data)){
-      data <- data %>% dplyr::mutate(x = weighted.mean(x, w = w, na.rm = na.rm), y = weighted.mean(y, w = w, na.rm = na.rm))
+      data <- data %>% dplyr::mutate(x = weighted.mean(x, w = weight, na.rm = na.rm), y = weighted.mean(y, w = weight, na.rm = na.rm))
     }
     else{
       data <-  data %>% dplyr::mutate(x = mean(x, na.rm = na.rm), y = mean(y, na.rm = na.rm)) 
     }
-    data %>%  dplyr::slice(1) %>% ungroup() %>% dplyr::filter(!is.na(binx))
+    data %>%  dplyr::slice(1) %>% dplyr::ungroup() %>% dplyr::filter(!is.na(binx))
   }
 )

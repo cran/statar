@@ -1,12 +1,12 @@
-0bd94979c9a38c11badfa99d4036413e *DESCRIPTION
+e4b987ebfc101089f2a85ca434108acf *DESCRIPTION
 c8bcb9f639cbf0df0f62722d5aeaf130 *NAMESPACE
 717b5c1b9f098b48becdc7db798f6691 *R/elapsed_dates.R
-34f9b3fb3823289a6d4a5930dbfc10ea *R/fill_gap.R
+f3284ed1498bad05a72437f8a9f49925 *R/fill_gap.R
 b68db97bc5e9ad6df3e069917bdd971e *R/is.panel.R
 418faa459ce6e22420e5b898ff823a3e *R/join.R
 fc5603a8930344e9c59816c3712d62ac *R/n_narm.R
 197401e557378af964425d2bb1790b2a *R/pctile.R
-5e34d1144c369fa236a475f478f1491c *R/stat_binmean.R
+714957322570faaa59c23b68ac510016 *R/stat_binmean.R
 3ce121f62d8457d404cc4f1c0331f039 *R/statar.R
 d015a93c7c76d2e82f9d84f1dc82f1d0 *R/statascii.R
 887d6603b6622378aa13cb6a0da6dd25 *R/sum_up.R
@@ -15,10 +15,10 @@ d015a93c7c76d2e82f9d84f1dc82f1d0 *R/statascii.R
 f3129d81eafa52b169fae5aaecd09daf *R/tlead-tlag.R
 3714f1142962aad6205cdb1cb0c78fcc *R/winsorize.R
 06603ebc250a8a82e57a2e5a30b2b609 *R/xtile.R
-4d61efb74f5acfd8d6573f275d224e65 *README.md
+83332ecdc60b3dd27be5bef116295556 *README.md
 d39b1358d54ff5be927e89fd28bbf0ef *build/vignette.rds
-bd0fa2db54356e708c68ecceb00bb06e *inst/doc/data-frames.Rmd
-ee87693a6729cf9e863c5af61cbf1bbf *inst/doc/data-frames.html
+68d6c5ae2fd5b9807849bad36f78a06d *inst/doc/data-frames.Rmd
+8314180b778b2da4014e8f9fba7f29dc *inst/doc/data-frames.html
 ae2235c4473a8068f898f8893f2fc0f4 *inst/doc/graph.Rmd
 032ebb376af3a54c9ecb5de5a0450108 *inst/doc/graph.html
 b64bc9aa52c856b43117535a46092a7c *inst/doc/panel-data.Rmd
@@ -31,7 +31,7 @@ be3ae318e25a73761120831d22c86fae *man/is.panel.Rd
 d60a3524aba12617c58552dfd5cc8b8f *man/join.Rd
 23e8817e35a823e920b50feaf2ddd8e9 *man/n_narm.Rd
 e757467ed2c65d3db11cec218dd4750a *man/pctile.Rd
-00334389c9cd56e7c23fc52240b3a061 *man/stat_binmean.Rd
+3caa69a44ab768acb648825abb187231 *man/stat_binmean.Rd
 16f2a5ffac1471b4046b3c428d652c6e *man/statar.Rd
 03abc29684bffa6f69bd0d6f1068c5ef *man/sum_up.Rd
 8948de839203829c4f8046e6c051b6c9 *man/tab.Rd
@@ -41,7 +41,7 @@ a2181ed02fed3ba9294ac2b7fa620733 *man/tlead-tlag.Rd
 c2273e446e1785ce6d62caeb2e8642d4 *man/xtile.Rd
 08293ab8c3560cc0df361ad77bcd6854 *tests/testthat.R
 1e6b39d142d05293a833594fca54282e *tests/testthat/test_elapsed.R
-41a2ce9da49a3cfaf5e0980abe47326e *tests/testthat/test_fill.R
+f189a12e84730e1767e3fac39f31346b *tests/testthat/test_fill.R
 2dda28cfe110357ff18b4bf535dbfaf1 *tests/testthat/test_ispanel.R
 f52ad22165464a60845bf9bd6301f61d *tests/testthat/test_join.R
 a9406d1d37421eddd4f29f1534c82420 *tests/testthat/test_lag.R
@@ -50,7 +50,7 @@ a9406d1d37421eddd4f29f1534c82420 *tests/testthat/test_lag.R
 838e9f843a40d5b81482ca7f6b615034 *tests/testthat/test_sumup.R
 5b16d82933faf49949fde6ce35265610 *tests/testthat/test_tab.R
 efd7c004bf0b20d19fc0a4720821db4f *vignettes/box.png
-bd0fa2db54356e708c68ecceb00bb06e *vignettes/data-frames.Rmd
+68d6c5ae2fd5b9807849bad36f78a06d *vignettes/data-frames.Rmd
 ae2235c4473a8068f898f8893f2fc0f4 *vignettes/graph.Rmd
 b64d4b961f88965adc50ce3b9216738a *vignettes/output_2_0.png
 e7b731181fa3610e66fd22b733acf9d5 *vignettes/output_3_0.png

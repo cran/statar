@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>tab = tabulate</title>
+<title>sum_up = summarize</title>
 
 <script type="text/javascript">
 window.onload = function() {
@@ -201,6 +201,21 @@ hr {
 </head>
 
 <body>
+<h3>sum_up = summarize</h3>
+
+<p><code>sum_up</code> prints detailed summary statistics (corresponds to Stata <code>summarize</code>)</p>
+
+<pre><code class="R">N &lt;- 100
+df &lt;- tibble(
+  id = 1:N,
+  v1 = sample(5, N, TRUE),
+  v2 = sample(1e6, N, TRUE)
+)
+sum_up(df)
+df %&gt;% sum_up(starts_with(&quot;v&quot;), d = TRUE)
+df %&gt;% group_by(v1) %&gt;%  sum_up()
+</code></pre>
+
 <h2>tab = tabulate</h2>
 
 <p><code>tab</code> prints distinct rows with their count. Compared to the dplyr function <code>count</code>, this command adds frequency, percent, and cumulative percent.</p>
